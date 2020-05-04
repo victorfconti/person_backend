@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.net.URI;
 import java.util.Optional;
 
 @RestController
@@ -41,7 +42,7 @@ public class PersonController {
     @Transactional
     public ResponseEntity<Person> post(@RequestBody PersonDTO personDTO, @RequestHeader(value="domain_id", required = true) Long domainId){
         Person person = personService.save(personDTO, domainId);
-        return ResponseEntity.ok(person);
+        return ResponseEntity.created(URI.create("/people")).body(person);
     }
 
     @PutMapping("/{id}")

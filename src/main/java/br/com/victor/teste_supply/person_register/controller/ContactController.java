@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class ContactController {
     public ResponseEntity<Contact> post(@RequestBody ContactDTO contact, @PathVariable("personId") Long personId,
                                         @RequestHeader("domain_id")Long domainId){
         var contactSave = contactService.save(contact, personId, domainId);
-        return ResponseEntity.ok(contactSave);
+        return ResponseEntity.created(URI.create("/contact")).body(contactSave);
     }
 
     private Contact findContact(Long id, Long domainId){
